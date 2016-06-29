@@ -1,4 +1,4 @@
-﻿# This is a Powershell Script that will generate the Default Prefetch to placed in the BigFix Action Script
+﻿# Powershell Script that will generate the Default Prefetch to placed in the BigFix Action Script
 
 function Generate-Prefetch () {
 
