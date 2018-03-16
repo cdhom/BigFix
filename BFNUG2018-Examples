@@ -1,0 +1,134 @@
+
+<?relevance
+
+(html "<table border=1>" & html ("<th>Issuer</th><th>Action ID</th><th>Action State</th><th>Action Name</th><th>Start Date</th>
+<th>Stopped/End Date</th><th>Success Rate</th><th>Completion Rate</th><th>Clients Reporting</th><th>Fixed</th><th>Failed</th>
+<th>Pending Restart</th><th>Running</th><th>Pending Downloads</th><th>Waiting</th><th>Evaluating</th><th>Disk Free Limited</th>
+<th>Not Relevant</th><th>Pending Message</th>") & 
+(it) & 
+html "</table>") 
+of concatenations of trs of 
+
+(/* Beginning of HTML*/ 
+td of (item 0 of it) & 
+td of (item 1 of it) & 
+td of (item 2 of it) & 
+td of (item 3 of it) & 
+td of (item 4 of it) & 
+td of (item 5 of it) & 
+
+td of ((if (nan of it) then ("No Reported Computers") else (if (infinite of it) then ("No Failures") else (if (finite of it) then ((if (number of characters of it > 4) then (firsts 5 of it) else it) of ((it * 100) as string)) else nothing))) of (item 6 of it as floating point / (item 6 of it + item 7 of it) as floating point)) & 
+
+td of ((if (nan of it) then ("No Reported Computers") else (if (infinite of it) then ("No Failures") else (if (finite of it) then ((if (number of characters of it > 4) then (firsts 5 of it) else it) of ((it * 100) as string)) else nothing))) of (((item 6 of it + item 7 of it + item 15 of it as integer) as floating point) / (item 17 of it) as floating point)) & 
+
+td of (item 17 of it) & 
+td of (item 6 of it as string) & 
+td of (item 7 of it as string) & 
+td of (item 8 of it as string) & 
+td of (item 9 of it) & 
+td of (item 10 of it) & 
+td of (item 12 of it) & 
+td of (item 13 of it) & 
+td of (item 14 of it) & 
+td of (item 15 of it) & 
+td of (item 16 of it)  /*End of HTML */ ) 
+
+of 
+((/*item 0*/ name of issuer of it, 
+/*item 1*/ id of it as string, 
+/*item 2*/ state of it, 
+/*item 3*/ (if (exists parent group of it) then name of parent group of it else name of it), 
+/*item 4*/ (if (exists parent group of it) then time issued of parent group of it as string else time issued of it as string), 
+/*item 5*/ (if (exists time stopped of it) then time stopped of it as string else (if ((exists end date of it) AND (end date of it > date (local time zone) of now )) then ("Running - End Date: " & end date of it as string) else if (exists end date of it) then (end date of it as string) else "No End Date")) of it, 
+/*item 6*/ number of statuses whose (it as string is "Fixed") of results of it, 
+/*item 7*/ number of statuses whose (it as string is "Failed") of results of it, 
+/*item 8*/  number of statuses whose (it as string is "Pending Restart") of results of it, 
+/*item 9 in the table is the Success rate */ number of statuses whose (it as string is "Running") of results of it as string, 
+/*item 10*/ number of statuses whose (it as string is "Not Relevant") of results of it as string, 
+/*item 11*/ number of statuses whose (it as string is "Waiting") of results of it as string,
+/*item 12*/ number of statuses whose (it as string is "Pending Downloads") of results of it as string, 
+/*item 13*/ number of statuses whose (it as string is "Evaluating") of results of it as string, 
+/*item 14*/ number of statuses whose (it as string is "Disk Free Limited") of results of it as string, 
+/*item 15*/ number of statuses whose (it as string is "Not Relevant") of results of it as string, 
+/*item 16*/ number of statuses whose (it as string is "Pending Message") of results of it as string, 
+/*item 17*/ number of apply counts of results of it as string)
+
+of bes actions whose (name of it as lowercase contains "CHANGE TO BASELINE SEARCH STRING" as lowercase AND state of it = "Open"))
+?>
+
+<br/>
+<hr>
+
+
+<?relevance h2 of "Successful Fixlets in Windows Open Baseline Actions (Applicable to 10+ Machines)" ?>
+<?relevance
+
+ (html "<table border=1>" & html ("<th>Issuer</th><th>Action ID</th><th>State</th><th>Baseline Name</th><th>Start Date</th><th>Name of Fixlet</th><th>Number of Successes</th>") & (it) & html "</table>") 
+
+of concatenations of trs of (
+
+td of (item 0 of it) & 
+td of (item 1 of it) & 
+td of (item 2 of it) & 
+td of (item 3 of it) & 
+td of (item 4 of it) & 
+td of (item 0 of item 5 of it) & 
+td of (item 1 of item 5 of it)
+
+) of (
+
+name of issuer of it, 
+id of it as string, 
+state of it, 
+name of it, 
+time issued of it as string, 
+((names of it, number of statuses whose (it as string as lowercase = "fixed") of results of it as string) of member actions whose (exists statuses whose (it as string as lowercase = "fixed") of results of it AND number of statuses whose (it as string as lowercase = "fixed") of results of it > 10) of it)
+
+) of bes actions whose (
+
+exists multiple flag of it AND 
+name of it as lowercase contains "CHANGE TO BASELINE SEARCH STRING" AND
+state of it = "Open" AND 
+name of it as lowercase contains "windows")
+
+?>
+
+<br/>
+<hr>
+
+
+
+
+<?relevance h2 of "Failed Fixlets in Windows Open Baseline Actions" ?>
+<?relevance
+
+(html "<table border=1>" & html ("<th>Issuer</th><th>Action ID</th><th>State</th><th>Baseline Name</th><th>Start Date</th><th>Name of Failed Fixlet</th><th>Number of Failures</th><th>Computer Name Failures</th>") & (it) & html "</table>") of concatenations of trs of (td of (item 0 of it) & td of (item 1 of it) & td of (item 2 of it) & td of (item 3 of it) & td of (item 4 of it) & td of (item 0 of item 5 of it) & td of (item 1 of item 5 of it) & td of (item 2 of item 5 of it)
+
+) of (
+
+name of issuer of it, 
+id of it as string, 
+state of it, 
+name of it, 
+time issued of it as string, 
+((names of it, number of statuses whose (it as string as lowercase = "failed") of results of it as string, concatenations " ; " of names of computers of results whose (exists statuses whose (it as string as lowercase = "failed") of it) of it) of member actions whose (exists statuses whose (it as string as lowercase = "failed") of results of it) of it)
+
+) of bes actions whose (
+
+exists multiple flag of it AND 
+name of it as lowercase contains "CHANGE BASELINE SEARCH STRING" AND 
+state of it = "Open" AND 
+name of it as lowercase contains "windows")
+
+?>
+
+<br/>
+<hr>
+
+
+
+
+
+
+
+
