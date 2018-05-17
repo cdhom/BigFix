@@ -74,6 +74,7 @@ then (end date of it as string) else "No End Date")) of it,
 /*item 17*/ number of apply counts of results of it as string)
 
 of bes actions whose (
+exists multiple flag of it AND
 name of it as lowercase contains "CHANGE TO BASELINE SEARCH STRING" as lowercase AND 
 state of it = "Open")
 
@@ -118,7 +119,7 @@ number of statuses whose (it as string as lowercase = "fixed") of results of it 
 ) of bes actions whose (
 
 exists multiple flag of it AND 
-name of it as lowercase contains "CHANGE TO BASELINE SEARCH STRING" AND
+name of it as lowercase contains "CHANGE TO BASELINE SEARCH STRING" as lowercase AND
 state of it = "Open" AND 
 name of it as lowercase contains "windows"
 
@@ -170,7 +171,7 @@ whose (exists statuses whose (it as string as lowercase = "failed") of results o
 ) of bes actions whose (
 
 exists multiple flag of it AND 
-name of it as lowercase contains "CHANGE BASELINE SEARCH STRING" AND 
+name of it as lowercase contains "CHANGE BASELINE SEARCH STRING" as lowercase AND 
 state of it = "Open" AND 
 name of it as lowercase contains "windows"
 
