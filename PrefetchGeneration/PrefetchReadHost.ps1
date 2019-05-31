@@ -1,5 +1,8 @@
 ﻿# Powershell Script that will generate the Default Prefetch to placed in the BigFix Action Script
 
+# Set SecurityProtocol to use TLS v1.2
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 function Generate-Prefetch () {
 
 ########################################################################
@@ -54,6 +57,12 @@ $PrefetchText = "prefetch $FileName sha1:$Sha1Hash size:$FileSize $DownloadURL s
 # Remove Downloaded File
 ########################################################################
 Remove-Item -Force $FileLocation -ErrorAction SilentlyContinue
+
+########################################################################
+# Copy Prefetch Text to Clipboard
+########################################################################
+Write-Host "Prefetch Copied to Clipboard"
+$PrefetchText | Clip
 
 ########################################################################
 # Return the Prefetch Text
