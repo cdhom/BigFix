@@ -21,4 +21,4 @@ of results whose (exists members of bes computer groups whose (name of it = "YOU
 
 of bes fixlets whose (name of it starts with "YOUR FIXLET TEXT HERE" and (cve id list of it contains "YOUR CVE TEXT GERE") and exists applicable computer counts whose (it > 0) of it ))
 
-relevance?>
+?>
