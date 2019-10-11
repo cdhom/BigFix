@@ -1,0 +1,17 @@
+(html "<table border=1>" & html ("<th>Status Name</th><th>Fixlet Name</th><th>Total</th>") 
+& (it)  & 
+html ("<th>Fixlet Name</th><th>Status</th><th>Total</th>")  & html "</table>") 
+
+of concatenations of trs of (td of (item 0 of it as string) & td of (item 1 of it as string) & td of (item 2 of it as string) ) 
+
+of ((preceding texts of firsts "---" of item 0 of it, following texts of firsts "---" of item 0 of it, item 1 of it) 
+
+of (it, multiplicity of it as string) of unique values 
+
+of ((if (it = true) then "Remediated" else "Not Remediated") of item 1 of it & "---" & item 0 of it as string) 
+
+of (name of fixlet of it, remediated flag of it) 
+
+of results whose (exists members of bes computer groups whose (name of it = "YOUR COMPUTER GROUP") of computers of it) 
+
+of bes fixlets whose (name of it starts with "YOUR FIXLET TEXT HERE" and (cve id list of it contains "YOUR CVE TEXT GERE") and exists applicable computer counts whose (it > 0) of it ))
