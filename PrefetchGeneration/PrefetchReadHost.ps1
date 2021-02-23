@@ -14,7 +14,8 @@ $DownloadURL = $DownloadURL.Trim()
 ########################################################################
 # Get URL Download Link File Name and Store as Variable
 ########################################################################
-$FileName = $DownloadURL -replace ".*/"
+$FileName = Read-Host 'File Name? '
+#$FileName = $DownloadURL -replace ".*/"
 
 ########################################################################
 # Set Temp $FileLocation on Local Machine
@@ -30,8 +31,9 @@ Remove-Item -Force $FileLocation -ErrorAction SilentlyContinue
 # Download File specified in $DownloadURL to Temp $FileLocation
 # Using .NET for download in case Powershell is not on latest Install
 ########################################################################
-$WebLink = New-Object System.Net.WebClient
-$WebLink.DownloadFile($DownloadURL,$FileLocation)
+#$WebLink = New-Object System.Net.WebClient
+#$WebLink.DownloadFile($DownloadURL,$FileLocation)
+Invoke-WebRequest -Uri $DownloadURL -OutFile $FileLocation
 
 ########################################################################
 # Get Sha1 Value of $FullPathFileName
@@ -59,16 +61,11 @@ $PrefetchText = "prefetch $FileName sha1:$Sha1Hash size:$FileSize $DownloadURL s
 Remove-Item -Force $FileLocation -ErrorAction SilentlyContinue
 
 ########################################################################
-# Copy Prefetch Text to Clipboard
-########################################################################
-Write-Host "Prefetch Copied to Clipboard"
-$PrefetchText | Clip
-
-########################################################################
 # Return the Prefetch Text
 ########################################################################
-return $PrefetchText
 
+$PrefetchText | clip
+return $PrefetchText
 }
 
 Generate-Prefetch
